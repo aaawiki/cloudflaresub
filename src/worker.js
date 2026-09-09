@@ -438,6 +438,17 @@ async function buildDedupHash(body) {
 }
 
 async function handleGenerate(request, env, url) {
+  if (!env?.SUB_STORE?.get) {
+    return json(
+      {
+        ok: false,
+        error:
+          '未绑定 KV 命名空间：请到 Workers → Settings → Bindings 添加 KV namespace，变量名必须为 SUB_STORE，然后重新部署。',
+      },
+      500,
+    );
+  }
+
   let body;
   try {
     body = await request.json();
