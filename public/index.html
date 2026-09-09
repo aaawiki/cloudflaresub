@@ -1,40 +1,40 @@
 <!doctype html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="zh-CN" data-page-node-id="mSVtHYYxgdxu25MiOGSUfp">
+  <head data-page-node-id="XD31NQUMev5SX6UsdnPkTx">
+    <meta charset="UTF-8" data-page-node-id="CugH55DLvHnK2qqbQwrxp1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="d4Uw3uPgb2R3UJQ6BJIL2z" />
     <title>优选IP订阅生成器</title>
     <meta
       name="description"
-      content="将自建 vmess/vless/trojan 节点批量替换为优选 IP，并导出 Clash、V2rayN、Shadowrocket、Surge 可用订阅链接。"
+      content="将自建 vmess/vless/trojan 节点批量替换为优选 IP，并导出 Clash、V2rayN、Shadowrocket、Surge 可用订阅链接。" data-page-node-id="Gq9MsWRD1fWs1z3lQipGkX"
     />
-    <link rel="icon" href="/icons/auto.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" href="/icons/auto.svg" type="image/svg+xml" data-page-node-id="4i425jR5Vp88fvALSFVnuj">
+    <link rel="stylesheet" href="/styles.css" data-page-node-id="iyukkB8ZoU3Mg8abjlIVlc" />
   </head>
-  <body>
-    <main class="container">
-      <section class="hero card">
-        <div>
-          <p class="eyebrow">InfiCheesy &amp; YouTube &amp; GitHub</p>
+  <body data-page-node-id="mqBxRv6FLA7hzLDtNWrjVh">
+    <main class="container" data-page-node-id="nVYMUKGgFv3jBGZHzDGo1d">
+      <section class="hero card" data-page-node-id="q0ZSW2TCb4rCwSm6DiHc5X">
+        <div data-page-node-id="FXlvFTEgGY5MBaqj7QtDqt">
+          <p class="eyebrow" data-page-node-id="f0SnoXMaKiydW3aiDg9LT5">InfiCheesy &amp; YouTube &amp; GitHub</p>
 
-          <h1 class="hero-title">
-            <img src="/icons/auto.svg" alt="logo" class="hero-logo" />
-            <span>优选IP订阅生成器</span>
+          <h1 class="hero-title" data-page-node-id="vDyNg1KYNod5naal6lo2XF">
+            <img src="/icons/auto.svg" alt="logo" class="hero-logo" data-page-node-id="5gCNrWNtx7SW2ITpCS3jan" />
+            <span data-page-node-id="qgYZb0aX82kwmc93aI3drF">优选IP订阅生成器</span>
           </h1>
-          <p class="lead">
+          <p class="lead" data-page-node-id="P7pG3NK61ynnE5dZCrGpsk">
             只做三件事：导入自建节点、批量替换为优选 IP、输出可导入主流客户端的订阅链接。
           </p>
         </div>
-        <div class="hero-note">
-          <strong>适合场景</strong>
-          <p>3X-UI / Xray / VPS 自建节点 + 你自己找好的 Cloudflare 优选 IP。</p>
+        <div class="hero-note" data-page-node-id="OArcp18mhHzTnKOVhyDra3">
+          <strong data-page-node-id="wsq481XZYDdSvxFOzjWu4I">适合场景</strong>
+          <p data-page-node-id="Lv2NKljCj8mmhyGoBhxmKx">3X-UI / Xray / VPS 自建节点 + 你自己找好的 Cloudflare 优选 IP。</p>
         </div>
       </section>
 
-      <section class="grid two-col">
-        <form id="generator-form" class="card stack-lg">
-          <div>
-            <label for="nodeLinks">1. 粘贴节点链接</label>
+      <section class="grid two-col" data-page-node-id="6ZDdHjFctLkiaIP3D8hzj7">
+        <form id="generator-form" class="card stack-lg" data-page-node-id="wq9DnRaF3BuaLzbKIg2oRu">
+          <div data-page-node-id="VLfE1wxI5mrPENoeMNPpkT">
+            <label for="nodeLinks" data-page-node-id="8zETJIcl5fVLFNY7hrgzed">1. 粘贴节点链接</label>
             <textarea
               id="nodeLinks"
               name="nodeLinks"
@@ -42,226 +42,225 @@
               placeholder="支持 vmess://、vless://、trojan://，一行一个。也支持直接粘贴原始 base64 订阅内容。"
               required
             ></textarea>
-            <p class="hint">重点兼容自建 VMess / VLESS / Trojan 的 WS + TLS 常见写法。</p>
+            <p class="hint" data-page-node-id="Jn78Ostf5QMHzpTDbGDkUO">重点兼容自建 VMess / VLESS / Trojan 的 WS + TLS 常见写法。</p>
           </div>
 
-          <div>
-            <label for="preferredIps">2. 粘贴优选 IP / 优选域名</label>
+          <div data-page-node-id="kArNxyi7RwBUL3FbwCHg5r">
+            <label for="preferredIps" data-page-node-id="RcK9Qi4Vxd8M7tXDtD4Ofl">2. 粘贴优选 IP / 优选域名（可选）</label>
             <textarea
               id="preferredIps"
               name="preferredIps"
               rows="8"
-              placeholder="示例：
+              placeholder="示例（可留空）：
 104.16.1.2#HK-01
 104.17.2.3:2053#HK-02
 cf.example.com:443#US-Edge"
-              required
             ></textarea>
-            <p class="hint">
-              支持 <code>IP</code>、<code>IP:端口</code>、<code>域名</code>、<code>域名:端口</code>，<code>#</code> 后面可写备注。
+            <p class="hint" data-page-node-id="pMMcbtfGCc3hiF0I74xK6W">
+              支持 <code data-page-node-id="paFIGbFFjyiRr3qoYwyTPF">IP</code>、<code data-page-node-id="7Tj5UZF1BCc4WS6MKgGhNB">IP:端口</code>、<code data-page-node-id="9d1PyBMbjkEIIayvMAmPk7">域名</code>、<code data-page-node-id="KicJjQGX2M3aUgm668nADp">域名:端口</code>，<code data-page-node-id="lNNGadLkGqGzYYfOVddhZR">#</code> 后面可写备注。<strong data-page-node-id="L7jUUZ8Cc0Hbd1VizhPyo6">留空则直接转换原始节点，不做优选替换。</strong>
             </p>
           </div>
 
-          <div class="grid two-col compact">
-            <div>
-              <label for="namePrefix">3. 备注前缀（可选）</label>
-              <input id="namePrefix" name="namePrefix" type="text" placeholder="例如 CF" />
+          <div class="grid two-col compact" data-page-node-id="Bn68x1f3zR2ZLdjeBXBoyq">
+            <div data-page-node-id="afQPxV3C7GAjGo4wZyc7hR">
+              <label for="namePrefix" data-page-node-id="0zW1qEk6Qji6x1n4VuTazH">3. 备注前缀（可选）</label>
+              <input id="namePrefix" name="namePrefix" type="text" placeholder="例如 CF" data-page-node-id="spGzTC0rGydmYy9Vy1riP9" />
             </div>
-            <div class="checkbox-wrap">
-              <input id="keepOriginalHost" name="keepOriginalHost" type="checkbox" checked />
-              <label for="keepOriginalHost">保留原节点 Host / SNI（推荐）</label>
+            <div class="checkbox-wrap" data-page-node-id="lgIFy2kZBGTmFNoATwZJWg">
+              <input id="keepOriginalHost" name="keepOriginalHost" type="checkbox" checked data-page-node-id="QQ1K9nOLUlqOGdnO98lXg2" />
+              <label for="keepOriginalHost" data-page-node-id="x9zhEVSPM9EvFE0DHBmECZ">保留原节点 Host / SNI（推荐）</label>
             </div>
           </div>
 
-          <div class="actions">
-            <button id="submitBtn" type="submit">生成订阅</button>
-            <button id="fillDemoBtn" type="button" class="secondary">填入演示数据</button>
+          <div class="actions" data-page-node-id="bsfMfbMirvIe9AoSrAaQHb">
+            <button id="submitBtn" type="submit" data-page-node-id="sdRkxV0BrGoPpWjQUXIbSz">生成订阅</button>
+            <button id="fillDemoBtn" type="button" class="secondary" data-page-node-id="0NH65Z9gumkESg5qMpOgj0">填入演示数据</button>
           </div>
         </form>
 
-        <aside class="card stack-md tips">
-          <h2>说明</h2>
-          <ul>
-            <li>不会帮你找优选 IP，只负责把你现成的优选 IP 替换进节点。</li>
-            <li>生成的链接是“同一份节点内容”的不同导出格式，分别给不同客户端使用。</li>
-            <li>推荐勾选“保留原 Host / SNI”，这样更适合 Cloudflare CDN 场景。</li>
-            <li>订阅链接里的节点信息会通过服务端密钥加密，请不要把链接公开分享。</li>
+        <aside class="card stack-md tips" data-page-node-id="FQWFzZ2I42ohcfRztskaqB">
+          <h2 data-page-node-id="IggrTI9uO0Q2wWuyJKUYZK">说明</h2>
+          <ul data-page-node-id="bjYIgQ3EvBchxRKC5HHbJm">
+            <li data-page-node-id="Ci33OfMbCjhtM5B7sKx6jQ">不会帮你找优选 IP，只负责把你现成的优选 IP 替换进节点。</li>
+            <li data-page-node-id="b62JT7qpf9FWmbsXwlMT4G">生成的链接是“同一份节点内容”的不同导出格式，分别给不同客户端使用。</li>
+            <li data-page-node-id="nkCx2WwrPW1JhAfYNOWNEK">推荐勾选“保留原 Host / SNI”，这样更适合 Cloudflare CDN 场景。</li>
+            <li data-page-node-id="Q1E5VTqlCX5OpqeNR1cM6I">订阅链接里的节点信息会通过服务端密钥加密，请不要把链接公开分享。</li>
           </ul>
 
-          <div class="client-box">
-            <h3>客户端怎么用</h3>
-            <ul>
-              <li><strong>V2rayN：</strong> 用原始订阅链接</li>
-              <li><strong>Shadowrocket：</strong> 用原始订阅链接</li>
-              <li><strong>Clash / Mihomo：</strong> 用 Clash 订阅链接</li>
-              <li><strong>Surge：</strong> 用 Surge 订阅链接</li>
+          <div class="client-box" data-page-node-id="tnNUjZmV99c4SLbauiIZV2">
+            <h3 data-page-node-id="G39x51ex6G1mH8Rx7WF1XV">客户端怎么用</h3>
+            <ul data-page-node-id="cpjdq2mwgOkBjf9fbrM7Se">
+              <li data-page-node-id="saBmRQSRcDYCH5jE9516yO"><strong data-page-node-id="GaeTcYad7WisPScDojZpG9">V2rayN：</strong> 用原始订阅链接</li>
+              <li data-page-node-id="YKmpgiQBuvXLYSGQJfa1xW"><strong data-page-node-id="009HI2wTkZKRbgzPWy0zUo">Shadowrocket：</strong> 用原始订阅链接</li>
+              <li data-page-node-id="vlXfnhFGzW7ZL3k6nsV7ok"><strong data-page-node-id="NLAskkeJqoCCpDeQbzbNCA">Clash / Mihomo：</strong> 用 Clash 订阅链接</li>
+              <li data-page-node-id="vmMbhKvOUMwcBHeidIBj4I"><strong data-page-node-id="F37gXqoxm2bwm6srnDi1Vu">Surge：</strong> 用 Surge 订阅链接</li>
             </ul>
           </div>
         </aside>
       </section>
 
-      <section id="resultSection" class="card stack-lg">
-        <div class="section-head result-head">
-          <div>
-            <p class="eyebrow">结果</p>
-            <h2>订阅结果</h2>
-            <p class="section-desc">选择适合你的客户端格式，复制订阅链接或扫码导入。</p>
+      <section id="resultSection" class="card stack-lg" data-page-node-id="5QNPgjUwt8TaJP0CkjhW43">
+        <div class="section-head result-head" data-page-node-id="Tx9oE8s8iwqrYFLSgVGjX8">
+          <div data-page-node-id="kITR2qu8XM374BLLNvhrBq">
+            <p class="eyebrow" data-page-node-id="PzXaBAyHWzcvZaXUdNykx2">结果</p>
+            <h2 data-page-node-id="QFkMwvDHcySUZiXhZDxyts">订阅结果</h2>
+            <p class="section-desc" data-page-node-id="YPGo0EN7LewxDQnwDlIF3d">选择适合你的客户端格式，复制订阅链接或扫码导入。</p>
           </div>
         </div>
 
-        <div id="warningBox" class="warning hidden"></div>
+        <div id="warningBox" class="warning hidden" data-page-node-id="hcW6seBbZLhwf9A7Dqs894"></div>
 
-        <div id="emptyState" class="empty-state">
+        <div id="emptyState" class="empty-state" data-page-node-id="rsGIAY1hkHycuYaDpiND0Q">
           还没有生成订阅。请先填写节点链接和优选 IP，然后点击“生成订阅”。
         </div>
 
-        <div id="statsGrid" class="stats-grid">
-          <div class="stat-card">
-            <span class="stat-label">原始节点</span>
-            <strong id="statInputNodes">0</strong>
+        <div id="statsGrid" class="stats-grid" data-page-node-id="tI0KSy3zLTBK0zp6E3BBVp">
+          <div class="stat-card" data-page-node-id="caMHjPq9eUf1MC3DacQv2d">
+            <span class="stat-label" data-page-node-id="CDIJQiTC243SQF0fY2zQ20">原始节点</span>
+            <strong id="statInputNodes" data-page-node-id="KB4Ahl4yCqdX9nPuwOCyey">0</strong>
           </div>
-          <div class="stat-card">
-            <span class="stat-label">优选地址</span>
-            <strong id="statEndpoints">0</strong>
+          <div class="stat-card" data-page-node-id="Nkhd6BHEm9aTDJbhF4Lq8V">
+            <span class="stat-label" data-page-node-id="YfV0Z3mn53xnjX5nJFT8BD">优选地址</span>
+            <strong id="statEndpoints" data-page-node-id="W8s30KLe08CNVjYX0guElW">0</strong>
           </div>
-          <div class="stat-card">
-            <span class="stat-label">生成节点</span>
-            <strong id="statOutputNodes">0</strong>
+          <div class="stat-card" data-page-node-id="hUBQAm5V6sxFFIGMu9OyLe">
+            <span class="stat-label" data-page-node-id="4Vh6PfUIMRnWZeUMNilNs2">生成节点</span>
+            <strong id="statOutputNodes" data-page-node-id="tujTwwN0a9OGtmrvyqJltR">0</strong>
           </div>
         </div>
 
-        <div class="sub-grid">
-          <article class="sub-card">
-            <div class="sub-card-head">
-              <div class="client-meta">
-                <div class="client-icon">
-                  <img src="/icons/auto.svg" alt="自动识别" />
+        <div class="sub-grid" data-page-node-id="TBiiGViIQtUpNVA4I4rNEz">
+          <article class="sub-card" data-page-node-id="Wxx2onef5WcalToA9EASav">
+            <div class="sub-card-head" data-page-node-id="yNR47zDjlizkDnLCv8h1HU">
+              <div class="client-meta" data-page-node-id="WSNjdc9cKMt7zDhEP9b9ml">
+                <div class="client-icon" data-page-node-id="i7cqUfXmMXefAkj1lth7eA">
+                  <img src="/icons/auto.svg" alt="自动识别" data-page-node-id="ZbJ1cQRPGtM7asmvyLOkHC" />
                 </div>
-                <div>
-                  <h3>自动识别</h3>
-                  <p>适合支持自动识别的客户端</p>
+                <div data-page-node-id="v2Xtga1el3sF0b19IsP7ah">
+                  <h3 data-page-node-id="vBGn5YrkalJ1HPFHjR0ZlG">自动识别</h3>
+                  <p data-page-node-id="RQJCJg2XItgjGETuiNabsR">适合支持自动识别的客户端</p>
                 </div>
               </div>
             </div>
-            <div class="sub-actions">
-              <input id="autoUrl" readonly />
-              <button data-copy-target="autoUrl" type="button" class="secondary small">复制</button>
-              <button data-qrcode-target="autoUrl" type="button" class="secondary small">二维码</button>
+            <div class="sub-actions" data-page-node-id="wTGURHEaoMYI0Z8pC2dDy4">
+              <input id="autoUrl" readonly data-page-node-id="Iza4TF8eyxx5HFgNygTn0p" />
+              <button data-copy-target="autoUrl" type="button" class="secondary small" data-page-node-id="goYmRUgnMuSG9VO5H1vhpX">复制</button>
+              <button data-qrcode-target="autoUrl" type="button" class="secondary small" data-page-node-id="8x2yrWG88VsB6HAsz12mRj">二维码</button>
             </div>
           </article>
 
-          <article class="sub-card">
-            <div class="sub-card-head">
-              <div class="client-meta">
-                <div class="client-icon">
-                  <img src="/icons/v2rayn.svg" alt="V2rayN" />
+          <article class="sub-card" data-page-node-id="DaPXduOFRSvPLn8EJCEUr2">
+            <div class="sub-card-head" data-page-node-id="66YzPWTGO0yU1DWDLZZ1Fx">
+              <div class="client-meta" data-page-node-id="FJ9WPNeqCcgN1Qhm04jmcJ">
+                <div class="client-icon" data-page-node-id="TLd4z4NTpJUFLyEVRHWzsU">
+                  <img src="/icons/v2rayn.svg" alt="V2rayN" data-page-node-id="HuDmlyotEMs2nJVZ87eutc" />
                 </div>
-                <div>
-                  <h3>V2rayN</h3>
-                  <p>适用于 V2rayN / v2rayNG</p>
+                <div data-page-node-id="1DMf79K312RDAklADHz45t">
+                  <h3 data-page-node-id="fiOMZEBov9iEhXGbJSPu49">V2rayN</h3>
+                  <p data-page-node-id="AHD2IaMHiXmA02QWutKYLj">适用于 V2rayN / v2rayNG</p>
                 </div>
               </div>
             </div>
-            <div class="sub-actions">
-              <input id="rawUrl" readonly />
-              <button data-copy-target="rawUrl" type="button" class="secondary small">复制</button>
-              <button data-qrcode-target="rawUrl" type="button" class="secondary small">二维码</button>
+            <div class="sub-actions" data-page-node-id="y7WJBPrWoKrNR6aZbYEVml">
+              <input id="rawUrl" readonly data-page-node-id="JfBGpDc1WU5XzBabCk4RkO" />
+              <button data-copy-target="rawUrl" type="button" class="secondary small" data-page-node-id="8WAX5YPrYPANcnXEszwBTz">复制</button>
+              <button data-qrcode-target="rawUrl" type="button" class="secondary small" data-page-node-id="F0Y3plafPIGih5ipShC60a">二维码</button>
             </div>
           </article>
 
-          <article class="sub-card">
-            <div class="sub-card-head">
-              <div class="client-meta">
-                <div class="client-icon">
-                  <img src="/icons/clash.svg">
+          <article class="sub-card" data-page-node-id="Hn7XSDI0FRldRUaS9zXrWx">
+            <div class="sub-card-head" data-page-node-id="C8trtgdD5Jjzh4pVM2QAOz">
+              <div class="client-meta" data-page-node-id="YRCMwHdTDLxegYWd2TXvmN">
+                <div class="client-icon" data-page-node-id="RoooF9IL9i8igRfIa8cSEC">
+                  <img src="/icons/clash.svg" data-page-node-id="CCLvBOOB6SKIFdGQxtJSnV">
                 </div>
-                <div>
-                  <h3>Clash</h3>
-                  <p>适用于 Clash / Mihomo / Clash Verge</p>
+                <div data-page-node-id="H0oniuoBCGCiYwybVcCRN0">
+                  <h3 data-page-node-id="I8xDa5Ucz3qqW5ssAZzcI7">Clash</h3>
+                  <p data-page-node-id="kyjgr2fx0U5sMz5E55RY11">适用于 Clash / Mihomo / Clash Verge</p>
                 </div>
               </div>
             </div>
-            <div class="sub-actions">
-              <input id="clashUrl" readonly />
-              <button data-copy-target="clashUrl" type="button" class="secondary small">复制</button>
-              <button data-qrcode-target="clashUrl" type="button" class="secondary small">二维码</button>
+            <div class="sub-actions" data-page-node-id="A03pwVsd36T2VUXfpDXAqP">
+              <input id="clashUrl" readonly data-page-node-id="EsCZytGqADQyD6REJAaecs" />
+              <button data-copy-target="clashUrl" type="button" class="secondary small" data-page-node-id="QpzQgvw8zsACYvstVVWZWt">复制</button>
+              <button data-qrcode-target="clashUrl" type="button" class="secondary small" data-page-node-id="Hh65XU2wtpXUC7lzoahhYU">二维码</button>
             </div>
           </article>
 
-          <article class="sub-card">
-            <div class="sub-card-head">
-              <div class="client-meta">
-                <div class="client-icon">
-                  <img src="/icons/shadowrocket.svg" alt="Shadowrocket" />
+          <article class="sub-card" data-page-node-id="CW4zKSy4vSIcFjul8W9oKL">
+            <div class="sub-card-head" data-page-node-id="oQgJhddKvC3BWdn4D83UTZ">
+              <div class="client-meta" data-page-node-id="VbLLPRZJuydEGEoTuPYCuw">
+                <div class="client-icon" data-page-node-id="OilQdnDCRmsPZa5skEalfH">
+                  <img src="/icons/shadowrocket.svg" alt="Shadowrocket" data-page-node-id="Vrr9L8zKiKX7jAdJT8n2GH" />
                 </div>
-                <div>
-                  <h3>Shadowrocket</h3>
-                  <p>适用于 iPhone / iPad 小火箭</p>
+                <div data-page-node-id="y0ffQ5nBruYPjZYYSvzyMl">
+                  <h3 data-page-node-id="GOJOeCR6F8FmWbMMI5eT7u">Shadowrocket</h3>
+                  <p data-page-node-id="Z84ARgTjDwiXFHPA2bE5Dm">适用于 iPhone / iPad 小火箭</p>
                 </div>
               </div>
             </div>
-            <div class="sub-actions">
-              <input id="rocketUrl" readonly />
-              <button data-copy-target="rocketUrl" type="button" class="secondary small">复制</button>
-              <button data-qrcode-target="rocketUrl" type="button" class="secondary small">二维码</button>
+            <div class="sub-actions" data-page-node-id="SZgOtswIAjxOjc1g8TeWff">
+              <input id="rocketUrl" readonly data-page-node-id="O61qbh5BQFbaHvcAvkIEaP" />
+              <button data-copy-target="rocketUrl" type="button" class="secondary small" data-page-node-id="dQqHsLgMIVdXGKLm9Xcyza">复制</button>
+              <button data-qrcode-target="rocketUrl" type="button" class="secondary small" data-page-node-id="EfAYGRdWAlSO1KNe7QhG4E">二维码</button>
             </div>
           </article>
 
-          <article class="sub-card sub-card-wide">
-            <div class="sub-card-head">
-              <div class="client-meta">
-                <div class="client-icon">
-                  <img src="/icons/surge.svg" alt="Surge" />
+          <article class="sub-card sub-card-wide" data-page-node-id="EgJVsDknelzgtq1dOp0zxb">
+            <div class="sub-card-head" data-page-node-id="9P7LqUXXBYSGPBgM8aONmM">
+              <div class="client-meta" data-page-node-id="rLAMWEwwp1vA7Ehp4RcS1y">
+                <div class="client-icon" data-page-node-id="gKHBxvBjtV3HwepZZGay4t">
+                  <img src="/icons/surge.svg" alt="Surge" data-page-node-id="fD85PUOFtDZeFDDmSGszT3" />
                 </div>
-                <div>
-                  <h3>Surge</h3>
-                  <p>适用于 Surge Profile 导入</p>
+                <div data-page-node-id="vH0gsUe3hgxWJJ7QbhG2Ki">
+                  <h3 data-page-node-id="pGvQyK8kGU0wnmVTD2xHrj">Surge</h3>
+                  <p data-page-node-id="s0zxpj1p1YtuQ64DBedVzV">适用于 Surge Profile 导入</p>
                 </div>
               </div>
             </div>
-            <div class="sub-actions">
-              <input id="surgeUrl" readonly />
-              <button data-copy-target="surgeUrl" type="button" class="secondary small">复制</button>
-              <button data-qrcode-target="surgeUrl" type="button" class="secondary small">二维码</button>
+            <div class="sub-actions" data-page-node-id="fz7sD0SASrJb5XmJt5EAQ0">
+              <input id="surgeUrl" readonly data-page-node-id="s38sx8kHObvyrjUByf0Y4l" />
+              <button data-copy-target="surgeUrl" type="button" class="secondary small" data-page-node-id="IaRmMWZxC2jYrDbQJVVqUp">复制</button>
+              <button data-qrcode-target="surgeUrl" type="button" class="secondary small" data-page-node-id="UPkm0wSn0byZ1vYsyDuJ2X">二维码</button>
             </div>
-            <p class="hint">当前 Surge 导出以 VMess / Trojan 为主；你的示例 VMess 节点适用。</p>
+            <p class="hint" data-page-node-id="mQqgw0k3bWSEb7mJJN3vvl">当前 Surge 导出以 VMess / Trojan 为主；你的示例 VMess 节点适用。</p>
           </article>
         </div>
 
-        <div class="preview-wrap">
-          <h3>预览前 20 个生成节点</h3>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>名称</th>
-                  <th>类型</th>
-                  <th>服务器</th>
-                  <th>端口</th>
-                  <th>Host</th>
-                  <th>SNI</th>
+        <div class="preview-wrap" data-page-node-id="DrjxEEXPD1JAYe2Fx8v6rD">
+          <h3 data-page-node-id="hJbWQQXukTW424O9uvWrNb">预览前 20 个生成节点</h3>
+          <div class="table-wrap" data-page-node-id="0NV2mDOrq8J5ceCjQzGkjq">
+            <table data-page-node-id="ix8QxVW7APwSBfXgZdUZK4">
+              <thead data-page-node-id="e0aTGi6VDUSM2XJQ4vyqVO">
+                <tr data-page-node-id="aAcjoFKj6aco4MYuV3o2qr">
+                  <th data-page-node-id="REldsYPSQBRnqEUKBVKFtJ">名称</th>
+                  <th data-page-node-id="YxEdM1StbxoA3IMHozaJmh">类型</th>
+                  <th data-page-node-id="CvrV0StT7cMayfMjgygDAS">服务器</th>
+                  <th data-page-node-id="IviThsSKujsBn4tDiFdSny">端口</th>
+                  <th data-page-node-id="dppZHCxQUFQyF02hrWTmP8">Host</th>
+                  <th data-page-node-id="KFLhQEB9NuJEmWgQSHXFb5">SNI</th>
                 </tr>
               </thead>
-              <tbody id="previewBody"></tbody>
+              <tbody id="previewBody" data-page-node-id="1Jb83l9QgJ8Q8o5vjCcVNG"></tbody>
             </table>
           </div>
         </div>
       </section>
     </main>
 
-    <div id="qrModal" class="modal hidden" aria-hidden="true">
-      <div class="modal-backdrop" data-close-modal="true"></div>
-      <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="qrTitle">
-        <div class="modal-head">
-          <div>
-            <p class="eyebrow">二维码导入</p>
-            <h3 id="qrTitle">订阅二维码</h3>
+    <div id="qrModal" class="modal hidden" aria-hidden="true" data-page-node-id="g0p7euoTuddGQVCBv6hWIw">
+      <div class="modal-backdrop" data-close-modal="true" data-page-node-id="VsF7BA1DA6lBVtwnfXuRDi"></div>
+      <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="qrTitle" data-page-node-id="ZjDhO3VR7XjJOlEDFo5BER">
+        <div class="modal-head" data-page-node-id="gyfzC0yyUNTE9rGaBcw2PO">
+          <div data-page-node-id="rM96vaiiq11IXavXAj2FdR">
+            <p class="eyebrow" data-page-node-id="uXOPYEjpRZjWzS4dDqiXq6">二维码导入</p>
+            <h3 id="qrTitle" data-page-node-id="yc9EqvmJu62dca5AjCi2QK">订阅二维码</h3>
           </div>
-          <button id="closeQrModal" type="button" class="secondary small">关闭</button>
+          <button id="closeQrModal" type="button" class="secondary small" data-page-node-id="jyM9HFdADxQS7BMeffgkU5">关闭</button>
         </div>
-        <div class="modal-body">
-          <div id="qrCanvas" class="qr-box"></div>
-          <p id="qrText" class="hint qr-text"></p>
+        <div class="modal-body" data-page-node-id="CXlKI9TriGKhjIncsvwGPa">
+          <div id="qrCanvas" class="qr-box" data-page-node-id="r9H16gU0fozS6jO5Yqz8F9"></div>
+          <p id="qrText" class="hint qr-text" data-page-node-id="wAAObLWGZwyBNUAF7afavx"></p>
         </div>
       </div>
     </div>

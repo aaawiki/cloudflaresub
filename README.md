@@ -18,6 +18,7 @@
 - 支持 `vmess`、`vless`、`trojan` 节点解析
 - 支持 Base64 订阅文本自动展开
 - 支持 `host[:port][#remark]` 格式的优选地址
+- **优选地址可选**：不填优选 IP 时，直接将原始节点转换为各平台订阅
 - 结果写入 Workers KV，生成 `/sub/:id` 短链
 - 相同输入自动去重（7 天 TTL）
 - 支持 `SUB_ACCESS_TOKEN` 访问令牌保护
@@ -127,7 +128,7 @@ cloudflaresub/
 
 字段说明：
 - `nodeLinks`: 多行节点链接
-- `preferredIps`: 多行优选地址，格式 `host[:port][#remark]`
+- `preferredIps`: 多行优选地址，格式 `host[:port][#remark]`（**可选，留空则直接输出原始节点**）
 - `namePrefix`: 节点名附加前缀
 - `keepOriginalHost`: 是否保留原始 Host/SNI（默认 `true`）
 

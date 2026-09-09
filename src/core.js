@@ -114,8 +114,9 @@ export function parseNodeLinks(inputText) {
 
 export function parsePreferredEndpoints(inputText) {
   const items = splitCsvLike(inputText);
+  // 允许为空：不填优选地址时直接转换原始节点
   if (!items.length) {
-    throw new Error('请至少填写 1 个优选 IP 或优选域名。');
+    return { endpoints: [], warnings: ['未填写优选地址，将直接输出原始节点链接。'] };
   }
 
   const endpoints = [];
@@ -148,6 +149,18 @@ export function expandNodes(baseNodes, endpoints, options = {}) {
   const namePrefix = String(options.namePrefix || '').trim();
   const warnings = [];
   const expanded = [];
+
+  // 优选地址为空时，直接输出原始节点（仅附加可选前缀）
+  if (!endpoints.length) {
+    baseNodes.forEach((baseNode) => {
+      const clone = deepClone(baseNode);
+      if (namePrefix) {
+        clone.name = buildNodeName(baseNode.name, namePrefix);
+      }
+      expanded.push(clone);
+    });
+    return { nodes: expanded, warnings };
+  }
 
   baseNodes.forEach((baseNode) => {
     const originalTlsHost = getEffectiveTlsHost(baseNode);

@@ -133,19 +133,23 @@ function parseRawLinks(input) {
 function buildNodes(baseNodes, preferredEndpoints, options = {}) {
   const output = [];
   const prefix = (options.namePrefix || '').trim();
+  // 优选地址为空时，直接输出原始节点（保留原名，仅附加可选前缀）
+  const endpoints = preferredEndpoints.length
+    ? preferredEndpoints
+    : [{ server: '', port: undefined, remark: '' }];
   let counter = 0;
   for (const node of baseNodes) {
-    for (const ep of preferredEndpoints) {
+    for (const ep of endpoints) {
       counter += 1;
       const nameParts = [];
       if (node.name) nameParts.push(node.name);
       if (prefix) nameParts.push(prefix);
       if (ep.remark) nameParts.push(ep.remark);
-      else nameParts.push(String(counter));
+      else if (preferredEndpoints.length) nameParts.push(String(counter));
       output.push({
         ...node,
         name: nameParts.join(' | '),
-        server: ep.server,
+        server: ep.server || node.server,
         port: ep.port || node.port,
         host: options.keepOriginalHost ? node.host : '',
         sni: options.keepOriginalHost ? node.sni : '',
@@ -445,7 +449,6 @@ async function handleGenerate(request, env, url) {
   const preferredEndpoints = parsePreferredEndpoints(body.preferredIps || '');
 
   if (!baseNodes.length) return json({ ok: false, error: '没有识别到可用节点' }, 400);
-  if (!preferredEndpoints.length) return json({ ok: false, error: '没有识别到可用优选地址' }, 400);
 
   const options = {
     namePrefix: body.namePrefix || '',
@@ -512,7 +515,14 @@ async function handleGenerate(request, env, url) {
       host: node.host || '',
       sni: node.sni || '',
     })),
-    warnings: accessToken ? [] : ['未检测到 SUB_ACCESS_TOKEN，订阅链接将没有第二层访问保护。'],
+    warnings: [
+      ...(!preferredEndpoints.length
+        ? ['未填写优选地址，将直接输出原始节点链接。']
+        : []),
+      ...(accessToken
+        ? []
+        : ['未检测到 SUB_ACCESS_TOKEN，订阅链接将没有第二层访问保护。']),
+    ],
   });
 }
 

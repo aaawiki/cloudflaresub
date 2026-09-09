@@ -29,6 +29,18 @@ assert.equal(expanded.nodes[1].port, 2053);
 const raw = renderRawSubscription(expanded.nodes);
 assert.ok(raw.length > 10);
 
+// 空优选地址：直接输出原始节点
+const emptyEndpoints = parsePreferredEndpoints('');
+assert.equal(emptyEndpoints.endpoints.length, 0);
+const passthrough = expandNodes(nodes, emptyEndpoints.endpoints, { keepOriginalHost: true, namePrefix: 'CF' });
+assert.equal(passthrough.nodes.length, 1);
+assert.equal(passthrough.nodes[0].server, 'edge.example.com');
+assert.equal(passthrough.nodes[0].port, 443);
+assert.equal(passthrough.nodes[0].sni, 'edge.example.com');
+assert.ok(passthrough.nodes[0].name.includes('CF'));
+const rawPassthrough = renderRawSubscription(passthrough.nodes);
+assert.ok(rawPassthrough.length > 10);
+
 const clash = renderClashSubscription(expanded.nodes);
 assert.match(clash, /proxies:/);
 assert.match(clash, /edge\.example\.com/);
