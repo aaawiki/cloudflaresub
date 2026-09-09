@@ -57,6 +57,13 @@ form.addEventListener('submit', async (event) => {
       body: JSON.stringify(payload),
     });
 
+    const contentType = response.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) {
+      throw new Error(
+        'API 未返回 JSON（返回的是 HTML 页面）。这通常说明项目被部署成了 Cloudflare Pages（纯静态），后端 Worker 没有生效。请改用 Workers & Pages → Create → Workers → Import a repository 方式部署，并确认 wrangler.toml 生效。',
+      );
+    }
+
     const data = await response.json();
     if (!response.ok || !data.ok) {
       throw new Error(data.error || '生成失败');
