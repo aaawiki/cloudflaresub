@@ -457,6 +457,8 @@ async function sha256Hex(input) {
 
 async function buildDedupHash(body) {
   const normalized = {
+    // v2: 转换逻辑变更（REALITY 支持等）后强制生成新订阅，避免命中旧快照缓存
+    schemaVersion: 2,
     nodeLinks: normalizeLines(body.nodeLinks || ''),
     preferredIps: normalizeLines(body.preferredIps || ''),
     namePrefix: String(body.namePrefix || '').trim(),
