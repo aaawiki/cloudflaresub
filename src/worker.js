@@ -82,6 +82,7 @@ function parseVmess(link) {
 
 function parseUrlLike(link, type) {
   const u = new URL(link);
+  const security = (u.searchParams.get('security') || '').toLowerCase();
   return {
     type,
     name: decodeURIComponent(u.hash.replace(/^#/, '')) || type,
@@ -90,7 +91,10 @@ function parseUrlLike(link, type) {
     password: type === 'trojan' ? decodeURIComponent(u.username) : undefined,
     uuid: type === 'vless' ? decodeURIComponent(u.username) : undefined,
     network: u.searchParams.get('type') || 'tcp',
-    tls: (u.searchParams.get('security') || '').toLowerCase() === 'tls',
+    tls: security === 'tls' || security === 'reality',
+    reality: security === 'reality',
+    pbk: u.searchParams.get('pbk') || '',
+    sid: u.searchParams.get('sid') || '',
     host: u.searchParams.get('host') || u.searchParams.get('sni') || '',
     path: u.searchParams.get('path') || '/',
     sni: u.searchParams.get('sni') || u.searchParams.get('host') || '',
@@ -183,7 +187,13 @@ function encodeVmess(node) {
 function encodeVless(node) {
   const url = new URL(`vless://${encodeURIComponent(node.uuid)}@${node.server}:${node.port}`);
   url.searchParams.set('type', node.network || 'ws');
-  if (node.tls) url.searchParams.set('security', 'tls');
+  if (node.reality) {
+    url.searchParams.set('security', 'reality');
+    if (node.pbk) url.searchParams.set('pbk', node.pbk);
+    if (node.sid) url.searchParams.set('sid', node.sid);
+  } else if (node.tls) {
+    url.searchParams.set('security', 'tls');
+  }
   if (node.host) url.searchParams.set('host', node.host);
   if (node.sni) url.searchParams.set('sni', node.sni);
   if (node.path) url.searchParams.set('path', node.path);
@@ -263,6 +273,24 @@ function renderClash(nodes) {
           `    tls: ${node.tls ? 'true' : 'false'}`,
           `    network: ${node.network || 'ws'}`,
         ];
+
+        if (node.flow) {
+          lines.push(`    flow: ${escapeYaml(node.flow)}`);
+        }
+
+        if (node.fp) {
+          lines.push(`    client-fingerprint: ${escapeYaml(node.fp)}`);
+        }
+
+        if (node.reality) {
+          lines.push(
+            `    reality-opts:`,
+            `      public-key: "${escapeYaml(node.pbk || '')}"`,
+          );
+          if (node.sid) {
+            lines.push(`      short-id: "${escapeYaml(node.sid)}"`);
+          }
+        }
 
         if (node.sni) {
           lines.push(`    servername: "${escapeYaml(node.sni)}"`);
