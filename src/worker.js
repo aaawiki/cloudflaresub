@@ -60,6 +60,148 @@ function parsePreferredEndpoints(input) {
     });
 }
 
+const MAX_SUBSCRIPTION_BYTES = 1024 * 1024;
+const MAX_SUBSCRIPTION_REDIRECTS = 3;
+
+async function resolveNodeInput(input) {
+  const value = String(input || '').trim();
+  if (!/^https?:\/\//i.test(value)) return value;
+  if (/\s/.test(value)) throw new Error('请单独粘贴一个 HTTP(S) 订阅地址。');
+
+  let currentUrl;
+  try {
+    currentUrl = new URL(value);
+  } catch {
+    throw new Error('订阅地址格式无效。');
+  }
+
+  for (let redirects = 0; redirects <= MAX_SUBSCRIPTION_REDIRECTS; redirects += 1) {
+    validateSubscriptionUrl(currentUrl);
+
+    let response;
+    try {
+      response = await fetch(currentUrl, {
+        headers: { accept: 'text/plain, */*;q=0.8' },
+        redirect: 'manual',
+        signal: AbortSignal.timeout(10_000),
+      });
+    } catch (error) {
+      throw new Error(`无法读取订阅地址：${error.message || '网络请求失败'}`);
+    }
+
+    if (response.status >= 300 && response.status < 400) {
+      const location = response.headers.get('location');
+      await response.body?.cancel();
+      if (!location) throw new Error('订阅地址返回了无法处理的重定向。');
+      if (redirects === MAX_SUBSCRIPTION_REDIRECTS) {
+        throw new Error('订阅地址重定向次数过多。');
+      }
+      currentUrl = new URL(location, currentUrl);
+      continue;
+    }
+
+    if (!response.ok) {
+      throw new Error(`订阅地址返回 HTTP ${response.status}。`);
+    }
+
+    const contentLength = Number(response.headers.get('content-length') || 0);
+    if (contentLength > MAX_SUBSCRIPTION_BYTES) {
+      throw new Error('订阅内容超过 1 MB，请使用更精简的订阅。');
+    }
+    return readSubscriptionBody(response);
+  }
+
+  throw new Error('无法读取订阅地址。');
+}
+
+function validateSubscriptionUrl(url) {
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+    throw new Error('原订阅地址必须使用 HTTP 或 HTTPS。');
+  }
+  if (url.username || url.password) {
+    throw new Error('订阅地址不能包含用户名或密码。');
+  }
+
+  const host = url.hostname.toLowerCase().replace(/^\[|\]$/g, '');
+  if (isPrivateOrReservedHost(host)) {
+    throw new Error('不能读取本机、内网或保留地址上的订阅。');
+  }
+}
+
+function isPrivateOrReservedHost(host) {
+  if (
+    host === 'localhost' ||
+    host.endsWith('.localhost') ||
+    host.endsWith('.local') ||
+    host.endsWith('.internal') ||
+    host.endsWith('.home.arpa')
+  ) {
+    return true;
+  }
+
+  if (/^\d{1,3}(?:\.\d{1,3}){3}$/.test(host)) {
+    const octets = host.split('.').map(Number);
+    if (octets.some((octet) => octet > 255)) return true;
+    const [a, b, c] = octets;
+    return (
+      a === 0 ||
+      a === 10 ||
+      a === 127 ||
+      a >= 224 ||
+      (a === 100 && b >= 64 && b <= 127) ||
+      (a === 169 && b === 254) ||
+      (a === 172 && b >= 16 && b <= 31) ||
+      (a === 192 && b === 0 && (c === 0 || c === 2)) ||
+      (a === 192 && b === 168) ||
+      (a === 192 && b === 88 && c === 99) ||
+      (a === 198 && (b === 18 || b === 19)) ||
+      (a === 198 && b === 51 && c === 100) ||
+      (a === 203 && b === 0 && c === 113)
+    );
+  }
+
+  if (host.includes(':')) {
+    const ipv6 = host.toLowerCase();
+    return (
+      ipv6 === '::' ||
+      ipv6 === '::1' ||
+      ipv6.startsWith('::ffff:') ||
+      /^f[cd]/.test(ipv6) ||
+      /^fe[89ab]/.test(ipv6) ||
+      /^ff/.test(ipv6) ||
+      ipv6.startsWith('2001:db8:')
+    );
+  }
+
+  return false;
+}
+
+async function readSubscriptionBody(response) {
+  if (!response.body) return '';
+
+  const reader = response.body.getReader();
+  const chunks = [];
+  let totalBytes = 0;
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    totalBytes += value.byteLength;
+    if (totalBytes > MAX_SUBSCRIPTION_BYTES) {
+      await reader.cancel();
+      throw new Error('订阅内容超过 1 MB，请使用更精简的订阅。');
+    }
+    chunks.push(value);
+  }
+
+  const bytes = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return new TextDecoder().decode(bytes);
+}
+
 function parseVmess(link) {
   const raw = link.slice('vmess://'.length).trim();
   const obj = JSON.parse(b64DecodeUtf8(raw));
@@ -133,6 +275,13 @@ function parseRawLinks(input) {
 function buildNodes(baseNodes, preferredEndpoints, options = {}) {
   const output = [];
   const prefix = (options.namePrefix || '').trim();
+  if (!preferredEndpoints.length) {
+    return baseNodes.map((node) => ({
+      ...node,
+      ...(prefix ? { name: [node.name, prefix].filter(Boolean).join(' | ') } : {}),
+    }));
+  }
+
   let counter = 0;
   for (const node of baseNodes) {
     for (const ep of preferredEndpoints) {
@@ -423,9 +572,9 @@ async function sha256Hex(input) {
     .join('');
 }
 
-async function buildDedupHash(body) {
+async function buildDedupHash(body, resolvedNodeInput = body.nodeLinks) {
   const normalized = {
-    nodeLinks: normalizeLines(body.nodeLinks || ''),
+    nodeLinks: normalizeLines(resolvedNodeInput || ''),
     preferredIps: normalizeLines(body.preferredIps || ''),
     namePrefix: String(body.namePrefix || '').trim(),
     keepOriginalHost: body.keepOriginalHost !== false,
@@ -441,11 +590,17 @@ async function handleGenerate(request, env, url) {
     return json({ ok: false, error: '请求体不是合法 JSON' }, 400);
   }
 
-  const baseNodes = parseRawLinks(body.nodeLinks || '');
+  let resolvedNodeInput;
+  let baseNodes;
+  try {
+    resolvedNodeInput = await resolveNodeInput(body.nodeLinks || '');
+    baseNodes = parseRawLinks(resolvedNodeInput);
+  } catch (error) {
+    return json({ ok: false, error: error.message || '无法解析节点或订阅内容。' }, 400);
+  }
   const preferredEndpoints = parsePreferredEndpoints(body.preferredIps || '');
 
   if (!baseNodes.length) return json({ ok: false, error: '没有识别到可用节点' }, 400);
-  if (!preferredEndpoints.length) return json({ ok: false, error: '没有识别到可用优选地址' }, 400);
 
   const options = {
     namePrefix: body.namePrefix || '',
@@ -461,7 +616,7 @@ async function handleGenerate(request, env, url) {
     nodes,
   };
 
-  const dedupHash = await buildDedupHash(body);
+  const dedupHash = await buildDedupHash(body, resolvedNodeInput);
   const dedupKey = `dedup:${dedupHash}`;
 
   let id = await env.SUB_STORE.get(dedupKey);

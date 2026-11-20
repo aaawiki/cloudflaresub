@@ -16,7 +16,8 @@
 ## 功能特性
 
 - 支持 `vmess`、`vless`、`trojan` 节点解析
-- 支持 Base64 订阅文本自动展开
+- 支持直接读取 HTTP(S) 原订阅地址及 Base64 订阅文本
+- 优选 IP / 域名可选；留空时保留原节点地址并转换客户端格式
 - 支持 `host[:port][#remark]` 格式的优选地址
 - 结果写入 Workers KV，生成 `/sub/:id` 短链
 - 相同输入自动去重（7 天 TTL）
@@ -97,7 +98,8 @@ cloudflaresub/
 
 - 打开 Worker 域名（如 `https://<name>.<subdomain>.workers.dev`）
 - 访问首页 `/`，应看到前端表单
-- 在页面输入节点和优选地址，点击生成
+- 在页面输入节点链接或 HTTP(S) 原订阅地址；优选 IP / 域名可选
+- 点击生成，即可获得各客户端格式的订阅链接
 - 拿到 `/sub/:id` 后测试：
   - `?target=raw&token=...`
   - `?target=clash&token=...`
@@ -112,13 +114,13 @@ cloudflaresub/
 
 ### `POST /api/generate`
 
-输入原始节点与优选地址，返回短链订阅。
+输入原始节点链接或 HTTP(S) 订阅地址，可选填写优选地址，返回短链订阅。
 
 请求体示例：
 
 ```json
 {
-  "nodeLinks": "vmess://...\nvless://...",
+  "nodeLinks": "https://example.com/my-subscription",
   "preferredIps": "104.16.1.2#HK\n104.17.2.3:2053#US",
   "namePrefix": "CF",
   "keepOriginalHost": true
@@ -126,8 +128,8 @@ cloudflaresub/
 ```
 
 字段说明：
-- `nodeLinks`: 多行节点链接
-- `preferredIps`: 多行优选地址，格式 `host[:port][#remark]`
+- `nodeLinks`: 多行节点链接、Base64 订阅内容，或单个 HTTP(S) 原订阅地址
+- `preferredIps`: 可选的多行优选地址，格式 `host[:port][#remark]`；留空时保留原节点地址
 - `namePrefix`: 节点名附加前缀
 - `keepOriginalHost`: 是否保留原始 Host/SNI（默认 `true`）
 
