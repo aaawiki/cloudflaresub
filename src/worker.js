@@ -583,6 +583,13 @@ async function buildDedupHash(body, resolvedNodeInput = body.nodeLinks) {
 }
 
 async function handleGenerate(request, env, url) {
+  if (!env.SUB_STORE) {
+    return json(
+      { ok: false, error: 'Worker 未绑定 SUB_STORE KV Namespace，请先配置 KV 绑定并重新部署。' },
+      503,
+    );
+  }
+
   let body;
   try {
     body = await request.json();
@@ -723,7 +730,14 @@ export default {
     }
 
     if (request.method === 'POST' && url.pathname === '/api/generate') {
-      return handleGenerate(request, env, url);
+      try {
+        return await handleGenerate(request, env, url);
+      } catch {
+        return json(
+          { ok: false, error: '订阅生成失败，请检查 Worker 的 SUB_STORE KV 绑定与运行配置。' },
+          500,
+        );
+      }
     }
 
     if (request.method === 'GET' && url.pathname.startsWith('/sub/')) {

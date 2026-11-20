@@ -57,7 +57,19 @@ form.addEventListener('submit', async (event) => {
       body: JSON.stringify(payload),
     });
 
-    const data = await response.json();
+    const responseText = await response.text();
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch {
+      const pageTitle = responseText.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]
+        ?.replace(/<[^>]*>/g, '')
+        .trim();
+      const titleHint = pageTitle ? `（${pageTitle}）` : '';
+      throw new Error(
+        `订阅接口返回了非 JSON 响应，HTTP ${response.status}${titleHint}。请检查 Worker 部署和 SUB_STORE KV 绑定。`,
+      );
+    }
     if (!response.ok || !data.ok) {
       throw new Error(data.error || '生成失败');
     }
